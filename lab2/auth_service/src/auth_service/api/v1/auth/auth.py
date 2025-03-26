@@ -108,3 +108,16 @@ async def get_current_active_user(
     current_user: Annotated[str, Depends(get_current_user)],
 ):
     return current_user
+
+async def get_users() -> list[str]:
+    return [value["username"] for value in db.values()]
+
+async def delete_user(username: str):
+    """
+    Будет переделано на id с добавлением БД. Модель пользователя в целом будет расширена
+    """
+    deleted = db.get(username)
+    if not deleted:
+        raise HTTPException(detail="User does not exist", status_code=status.HTTP_404_NOT_FOUND)
+    else:
+        db.pop(username)

@@ -14,6 +14,8 @@ from .auth import (
     create_access_token,
     create_new_user,
     get_current_active_user,
+    get_users,
+    delete_user
 )
 from .models import Token, User
 
@@ -29,6 +31,9 @@ async def create_account(new_user: User, response: Response):
     )
     return {"result": "created"}
 
+@auth_router.get("/users")
+async def get_users_list(current_user: Annotated[str, Depends(get_current_active_user)],):
+    return await get_users()
 
 @auth_router.post("/token", response_model=Token)
 async def login_for_access_token(
@@ -53,3 +58,12 @@ async def read_users_me(
     current_user: Annotated[str, Depends(get_current_active_user)],
 ):
     return current_user
+
+@auth_router.delete("/users/{username}")
+async def delete_user_view(
+    username: str, current_user: Annotated[str, Depends(get_current_active_user)]
+):
+    if current_user == "admin":
+        await delete_user(username)
+    else:
+        raise HTTPException(status_code=403, detail="Forbidden")
