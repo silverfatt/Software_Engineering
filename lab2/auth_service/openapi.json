@@ -63,6 +63,30 @@
                 }
             }
         },
+        "/api/v1/auth/users": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get Users List",
+                "operationId": "get_users_list_api_v1_auth_users_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/auth/token": {
             "post": {
                 "tags": [
@@ -126,6 +150,51 @@
                         "OAuth2PasswordBearer": []
                     }
                 ]
+            }
+        },
+        "/api/v1/auth/users/{username}": {
+            "delete": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Delete User View",
+                "operationId": "delete_user_view_api_v1_auth_users__username__delete",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Username"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
