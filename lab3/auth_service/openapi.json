@@ -116,7 +116,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
                             }
                         }
                     }
@@ -221,9 +223,35 @@
             },
             "User": {
                 "properties": {
+                    "initials": {
+                        "type": "string",
+                        "title": "Initials"
+                    },
                     "username": {
                         "type": "string",
                         "title": "Username"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "Guest",
+                            "User",
+                            "Admin"
+                        ],
+                        "title": "Role",
+                        "default": "User"
+                    },
+                    "disabled": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Disabled",
+                        "default": false
                     },
                     "password": {
                         "type": "string",
@@ -232,6 +260,7 @@
                 },
                 "type": "object",
                 "required": [
+                    "initials",
                     "username",
                     "password"
                 ],

@@ -1,7 +1,7 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "Projects backend",
+        "title": "Auth backend",
         "version": "DEV"
     },
     "paths": {
@@ -24,203 +24,23 @@
                 }
             }
         },
-        "/api/v1/projects/": {
-            "get": {
-                "tags": [
-                    "Projects"
-                ],
-                "summary": "List Projects",
-                "operationId": "list_projects_api_v1_projects__get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "items": {
-                                        "$ref": "#/components/schemas/Project"
-                                    },
-                                    "type": "array",
-                                    "title": "Response List Projects Api V1 Projects  Get"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
+        "/api/v1/auth/signup": {
             "post": {
                 "tags": [
-                    "Projects"
+                    "Auth"
                 ],
-                "summary": "Create Project Route",
-                "operationId": "create_project_route_api_v1_projects__post",
+                "summary": "Create Account",
+                "operationId": "create_account_api_v1_auth_signup_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ProjectCreate"
+                                "$ref": "#/components/schemas/User"
                             }
                         }
                     },
                     "required": true
                 },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Project"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/projects/{project_id}": {
-            "get": {
-                "tags": [
-                    "Projects"
-                ],
-                "summary": "Get Project",
-                "operationId": "get_project_api_v1_projects__project_id__get",
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "project_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "title": "Project Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Project"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Projects"
-                ],
-                "summary": "Update Project Route",
-                "operationId": "update_project_route_api_v1_projects__project_id__put",
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "project_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "title": "Project Id"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ProjectCreate"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Project"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Projects"
-                ],
-                "summary": "Delete Project Route",
-                "operationId": "delete_project_route_api_v1_projects__project_id__delete",
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "project_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "title": "Project Id"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -242,10 +62,134 @@
                     }
                 }
             }
+        },
+        "/api/v1/auth/token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login For Access Token",
+                "operationId": "login_for_access_token_api_v1_auth_token_post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_for_access_token_api_v1_auth_token_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/users/me/": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Read Users Me",
+                "operationId": "read_users_me_api_v1_auth_users_me__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "Body_login_for_access_token_api_v1_auth_token_post": {
+                "properties": {
+                    "grant_type": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "pattern": "^password$"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grant Type"
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "title": "Scope",
+                        "default": ""
+                    },
+                    "client_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Id"
+                    },
+                    "client_secret": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Secret"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "title": "Body_login_for_access_token_api_v1_auth_token_post"
+            },
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
@@ -259,58 +203,68 @@
                 "type": "object",
                 "title": "HTTPValidationError"
             },
-            "Project": {
+            "Token": {
                 "properties": {
-                    "name": {
+                    "access_token": {
                         "type": "string",
-                        "title": "Name"
+                        "title": "Access Token"
                     },
-                    "description": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Description"
-                    },
-                    "id": {
-                        "type": "integer",
-                        "title": "Id"
+                    "token_type": {
+                        "type": "string",
+                        "title": "Token Type"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "name",
-                    "id"
+                    "access_token",
+                    "token_type"
                 ],
-                "title": "Project"
+                "title": "Token"
             },
-            "ProjectCreate": {
+            "User": {
                 "properties": {
-                    "name": {
+                    "initials": {
                         "type": "string",
-                        "title": "Name"
+                        "title": "Initials"
                     },
-                    "description": {
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "Guest",
+                            "User",
+                            "Admin"
+                        ],
+                        "title": "Role",
+                        "default": "User"
+                    },
+                    "disabled": {
                         "anyOf": [
                             {
-                                "type": "string"
+                                "type": "boolean"
                             },
                             {
                                 "type": "null"
                             }
                         ],
-                        "title": "Description"
+                        "title": "Disabled",
+                        "default": false
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "name"
+                    "initials",
+                    "username",
+                    "password"
                 ],
-                "title": "ProjectCreate"
+                "title": "User"
             },
             "ValidationError": {
                 "properties": {
@@ -352,7 +306,7 @@
                 "flows": {
                     "password": {
                         "scopes": {},
-                        "tokenUrl": "http://localhost:8000/api/v1/auth/token"
+                        "tokenUrl": "v1/auth/token"
                     }
                 }
             }
