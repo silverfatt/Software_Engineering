@@ -20,6 +20,23 @@ async def get_user_from_db(username: str) -> Optional[UserInDB]:
             return UserInDB(**data)
 
 
+async def get_users_from_db() -> list[UserInDB]:
+    pool = get_connection_pool()
+    query = """
+            SELECT *
+            FROM users
+            """
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            rows = await connection.fetch(query)
+            res = []
+            for row in rows:
+                data = dict(**row)
+                data["password"] = ""
+                res.append(data)
+            return [UserInDB(**r) for r in res]
+
+
 async def get_user_id_from_db(username: str) -> Optional[int]:
     pool = get_connection_pool()
     query = """

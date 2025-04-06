@@ -14,6 +14,7 @@ from .auth import (
     create_access_token,
     create_new_user,
     get_current_active_user,
+    get_users,
 )
 from .models import Token, User
 
@@ -54,3 +55,10 @@ async def read_users_me(
     current_user: Annotated[User, Depends(get_current_active_user)],
 ):
     return current_user
+
+
+@auth_router.get("/users")
+async def get_users_list(
+    current_user: Annotated[str, Depends(get_current_active_user)],
+):
+    return await get_users()

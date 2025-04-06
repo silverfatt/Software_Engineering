@@ -7,7 +7,7 @@ from jose import JWTError, jwt
 from loguru import logger
 from passlib.context import CryptContext
 
-from ....external.postgres.utils import create_user, get_user_from_db
+from ....external.postgres.utils import create_user, get_user_from_db, get_users_from_db
 from ....settings import settings
 from .models import TokenData, User, UserInDB
 
@@ -104,3 +104,7 @@ async def get_current_active_user(
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+
+async def get_users() -> list[UserInDB]:
+    return await get_users_from_db()
