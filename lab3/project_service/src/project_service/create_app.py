@@ -15,7 +15,7 @@ from .api.v1.project.views import project_router
 from .external.postgres.connection import (
     connect_postgres,
     disconnect_postgres,
-    init_dabase,
+    init_database,
 )
 from .settings import settings
 
@@ -57,7 +57,7 @@ def create_app():
     )
 
     app.add_event_handler("startup", connect_postgres)
-    app.add_event_handler("startup", init_dabase)
+    app.add_event_handler("startup", init_database)
     app.add_event_handler("shutdown", disconnect_postgres)
 
     return app

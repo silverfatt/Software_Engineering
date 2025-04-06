@@ -43,7 +43,7 @@ async def disconnect_postgres():
     await db.pool.close()
 
 
-async def init_dabase():
+async def init_database():
     pool = db.pool
     try:
         async with pool.acquire() as connection:
