@@ -64,7 +64,7 @@ async def init_database():
             else:
                 logger.info('msg="Tables already initialized"')
     except Exception as exc:
-        logger.error('msg="Failed connect to PostgreSQL."')
+        logger.error('msg="Failed init database."')
         logger.error(str(exc))
         sys.exit(1)
 
