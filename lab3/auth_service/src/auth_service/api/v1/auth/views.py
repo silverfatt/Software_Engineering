@@ -13,10 +13,11 @@ from .auth import (
     authenticate_user,
     create_access_token,
     create_new_user,
+    delete_user,
     get_current_active_user,
     get_users,
 )
-from .models import Token, User
+from .models import Token, User, UserInDB
 
 auth_router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
 
@@ -62,3 +63,13 @@ async def get_users_list(
     current_user: Annotated[str, Depends(get_current_active_user)],
 ):
     return await get_users()
+
+
+@auth_router.delete("/users/{id}")
+async def delete_user_view(
+    id: int, current_user: Annotated[UserInDB, Depends(get_current_active_user)]
+):
+    if current_user.role == "Admin":
+        await delete_user(id)
+    else:
+        raise HTTPException(status_code=403, detail="Forbidden")

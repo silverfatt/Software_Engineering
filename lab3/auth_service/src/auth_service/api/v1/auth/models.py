@@ -22,4 +22,5 @@ class TokenData(BaseModel):
 
 
 class UserInDB(User):
+    id: int = -1
     hashed_password: str

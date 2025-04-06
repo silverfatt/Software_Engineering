@@ -77,3 +77,13 @@ async def save_file_to_db(file_path: str, user_id: int):
     async with pool.acquire() as connection:
         async with connection.transaction():
             await connection.fetch(query, file_path, user_id)
+
+
+async def delete_user_from_db(id: int):
+    pool = get_connection_pool()
+    query = """
+            DELETE FROM users WHERE id = $1
+            """
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            await connection.execute(query, id)
